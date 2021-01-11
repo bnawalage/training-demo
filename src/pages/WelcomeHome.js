@@ -1,5 +1,7 @@
 import React from 'react';
 import Welcome from "../component/welcome";
+import { Route, withRouter } from 'react-router-dom';
+import SubMessage from '../component/SubMessage';
 
 class WelcomeForm extends React.Component {
 
@@ -14,6 +16,9 @@ class WelcomeForm extends React.Component {
         }
         this.handleChange=this.handleChange.bind(this);
         this.onSubmit=this.onSubmit.bind(this);
+        this.updateMe=this.updateMe.bind(this);
+        this.welcomeref=React.createRef();
+        this.delete=this.delete.bind(this);
     } 
   
     handleChange(e){
@@ -35,10 +40,22 @@ class WelcomeForm extends React.Component {
           name:'',
           age:''
         }
-      });
-      
+      }); 
+    }
+
+    updateMe(){
+      this.welcomeref.current.changeMe();
     }
     
+
+    
+    delete(e,idx){
+      let {users}=this.state;
+      users.splice(idx,1);
+      this.setState({
+        users:users
+      });
+    }
   
     render(){
         const {user,users}=this.state;
@@ -49,15 +66,12 @@ class WelcomeForm extends React.Component {
           <input type="text" name="age" value={user.age} onChange={this.handleChange}/>
           <input type="submit" value="submit"/>
         </form> 
-         <ul>
-           {
-            users.map(u=>{
-              return <li key={u.name}><Welcome user={u}/></li>
-            })
-           } 
-        </ul>  
+         <button name="but" value="update" onClick={this.updateMe}>Update</button>         
+         <Welcome users={users} ref={this.welcomeref} deleteAbc={this.delete}/>
+        
+
       </div>)
     } 
   }
 
-  export default  WelcomeForm;
+  export default  withRouter(WelcomeForm);

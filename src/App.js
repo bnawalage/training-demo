@@ -4,7 +4,7 @@ import './App.css';
 function App(props) {
   return (
     <div className="App"> 
-        {props.user.lastName}
+       {props.match.params.lastname}
     </div>
   );
 }
