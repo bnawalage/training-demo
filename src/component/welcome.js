@@ -1,6 +1,12 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Switch,useRouteMatch,Route, withRouter } from 'react-router-dom';
+import SubMessage from './SubMessage';
+
+function Welcome2() {
+  const { path, url } =  useRouteMatch();
+}
+
 class Welcome extends React.Component {
     constructor(props) {
       super(props);  
@@ -17,20 +23,32 @@ class Welcome extends React.Component {
   } 
 
   render(){
-//    const users=this.state;
+    //    const users=this.state;
+    const { path, url } = this.props.match;
+    console.log("path:"+path);
+    console.log("path:"+url);
      return  (
        <div>
             <ul>
               {
               this.props.users.map((u,idx)=>{
-                return <li key={idx}><h1>{u.name} - {u.age} -{this.state.text}  </h1>  
+                return <li key={idx}><h1>   <Link to={`${url}/${u.age}`}>u.name</Link> </h1>   
                 <button onClick={(e)=>{
                   this.props.deleteAbc(e,idx);
                 }} >delete</button></li>
               })
               } 
           </ul> 
+          <Switch>
+            <Route exact path={path}>
+              <h3>Please select a topic.</h3>
+            </Route>
+            <Route path={`${path}/:id`}>
+                <SubMessage />
+            </Route>
+          </Switch>
+          
         </div>);
   }
 }
-export default  Welcome;
+export default  withRouter(Welcome);

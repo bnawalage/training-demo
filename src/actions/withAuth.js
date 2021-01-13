@@ -1,41 +1,44 @@
 import React, { Component } from 'react'; 
-export default function withAuth(AuthComponent) {
-
-    const Auth = new AuthService();
-    return class AuthWrapped extends Component {
+import { connect } from "react-redux"; 
+function withAuth(AuthComponent) {
+    
+    return  class AuthWrapped extends Component {
         constructor() {
             super();
             this.state = {
-                user: null
+                logged: null
             }
         }
 
         componentWillMount() {
-            if (!Auth.loggedIn()) {
+            if (!this.props.loggedin) {
                 this.props.history.replace('/')
             }
             else {
                 try {
-                    const profile = Auth.getProfile()
+                    
                     this.setState({
-                        user: profile
+                        logged: true
                     })
                 }
                 catch (err) {
-                    Auth.logout()
+                    localStorage.removeItem("loggedin")
                     this.props.history.replace('/')
                 }
             }
         }
 
         render() {
-            if (this.state.user) {
+            if (this.props.loggedin) {
                 return (
-                    <AuthComponent history={this.props.history} user={this.state.user} match={this.props.match}/>
+                    <AuthComponent history={this.props.history}  match={this.props.match}/>
                 )
             } else {
                 return null
             }
         }
     }
-}
+} 
+
+
+export default withAuth;

@@ -2,21 +2,31 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import { createStore, combineReducers } from 'redux';
 import reportWebVitals from './reportWebVitals';
 import WelcomeForm from './pages/WelcomeHome'; 
 import Home from './pages/home';
+import { Provider } from 'react-redux';
 import {
   BrowserRouter as Router,
-  Route 
+  Route, 
+  Switch
 } from "react-router-dom";
 import Login from './pages/login';
+import rootReducer from './reducers';
+
+let store=createStore(rootReducer); 
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router basename={"/app"}> 
-          <Route path="/logged" component={Home}/>
-          <Route path="/" component={Login}/> 
-    </Router> 
+    <Provider store={store}>
+      <Router basename={"/app"}> 
+          <Switch>
+            <Route path="/logged" component={Home}/>
+            <Route path="/" component={Login}/> 
+          </Switch> 
+        </Router> 
+    </Provider> 
   </React.StrictMode>,
   document.getElementById('root')
 );

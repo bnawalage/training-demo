@@ -1,6 +1,7 @@
 import React from 'react';
+import '../App.css';
 import Welcome from "../component/welcome";
-import { Route, withRouter } from 'react-router-dom';
+import { Route, useRouteMatch } from 'react-router-dom';
 import SubMessage from '../component/SubMessage';
 
 class WelcomeForm extends React.Component {
@@ -18,7 +19,7 @@ class WelcomeForm extends React.Component {
         this.onSubmit=this.onSubmit.bind(this);
         this.updateMe=this.updateMe.bind(this);
         this.welcomeref=React.createRef();
-        this.delete=this.delete.bind(this);
+        this.delete=this.delete.bind(this); 
     } 
   
     handleChange(e){
@@ -58,7 +59,7 @@ class WelcomeForm extends React.Component {
     }
   
     render(){
-        const {user,users}=this.state;
+        const {user,users}=this.state; 
         return  (
         <div>
           <form onSubmit={this.onSubmit}>
@@ -74,4 +75,4 @@ class WelcomeForm extends React.Component {
     } 
   }
 
-  export default  withRouter(WelcomeForm);
+  export default  WelcomeForm;
